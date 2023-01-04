@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { API_URL, ANT_URL, HKTOLL_URL } from '../utils/constants'
 import axios from 'axios'
 import ReactHlsPlayer from 'react-player/lazy'
-import { Container, Row, Col, Card, ListGroup, Button } from "react-bootstrap"
+import { Container, Row, Col, Card, ListGroup, Button, Badge } from "react-bootstrap"
 import BadgeStatusComponent from '../component/BadgeStatus'
 
 export default function CctvInternal() {
@@ -24,6 +24,7 @@ export default function CctvInternal() {
     })
 
     const [dataCctv, setDataCctv] = useState([])
+    const [dataRuas, setDataRuas] = useState('')
 
     const handleShow = function (link, cctvName) {
         setDataPlayer({
@@ -32,10 +33,10 @@ export default function CctvInternal() {
         })
     }
 
-    const handleClick = function (id_ruas) {
+    const handleClick = function (id_ruas, nama_ruas) {
+        setDataRuas(nama_ruas)
         axios.get(HKTOLL_URL + "allcctv/" + id_ruas).then(response => {
             // setLoading(false)
-            console.log(response.data.cctv)
             setDataCctv(response.data.cctv)
         }).catch(error => {
             console.log(error)
@@ -43,6 +44,24 @@ export default function CctvInternal() {
         })
     }
 
+    let TotalOffline = 0
+    let TotalOnline = 0
+    let TotalCctv = 0
+
+    dataCctv.map((result, index) => {
+        if (result.is_active == 0) {
+            TotalOffline += 1
+            // TotalOffline.push(result.is_active)
+        } else {
+            TotalOnline += 1
+            // TotalOnline.push(result.is_active)
+        }
+        TotalCctv += 1
+    })
+
+    console.log("total Offline ====>", TotalOffline)
+    console.log("total Online ====>", TotalOnline)
+    console.log("total CCTV ====>", TotalCctv)
     return (
         <>
             <div className="bg g-0">
@@ -60,6 +79,9 @@ export default function CctvInternal() {
                                         url={dataPlayer.url}
                                     />
                                 </Col>
+                                <Card.Body className='bg-dark text-white'>
+                                    <h4>{dataRuas} <small class="text-muted">({dataPlayer.name})</small></h4> Total {TotalCctv} <Badge bg='primary'>Online {TotalOnline}</Badge> <Badge bg='danger'>Offline {TotalOffline}</Badge>
+                                </Card.Body>
                                 <Card.Body>
                                     <div className='d-flex flex-wrap'>
                                         {
@@ -68,7 +90,7 @@ export default function CctvInternal() {
                                                 return (
                                                     <>
                                                         <div className="p-1">
-                                                            <Button variant="outline-primary" onClick={() => handleClick(result.value)} >
+                                                            <Button variant="outline-primary" size="sm" onClick={() => handleClick(result.value, result.name)} >
                                                                 {result.alias}
                                                             </Button>
                                                         </div>
@@ -77,12 +99,12 @@ export default function CctvInternal() {
                                             })}
                                     </div>
                                 </Card.Body>
-                                <Card.Body>
+                                {/* <Card.Body>
                                     <Card.Title>{dataPlayer.name}</Card.Title>
                                     <Card.Text>
                                         {dataPlayer.url}
                                     </Card.Text>
-                                </Card.Body>
+                                </Card.Body> */}
                                 <Card.Body>
                                     <div class="container-list overflow-auto">
                                         <ListGroup className="list-group-flush">
@@ -90,7 +112,6 @@ export default function CctvInternal() {
                                                 return (
                                                     <ListGroup.Item 
                                                     as="li"
-
                                                     href={'#link' + result.id} 
                                                     onClick={() => handleShow('https://broadcast1.hk-opt.com/LiveApp/streams/' + result.antmedia_id + '.m3u8', result.cctv_name)}>
                                                         <div className="d-flex">

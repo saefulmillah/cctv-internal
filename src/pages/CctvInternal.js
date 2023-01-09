@@ -35,7 +35,11 @@ export default function CctvInternal() {
 
     const handleClick = function (id_ruas, nama_ruas) {
         setDataRuas(nama_ruas)
-        axios.get(HKTOLL_URL + "allcctv/" + id_ruas).then(response => {
+        axios.get(HKTOLL_URL + "allcctv/" + id_ruas, {
+            headers: {
+                'Access-Control-Allow-Origin': true,
+            },
+        }).then(response => {
             // setLoading(false)
             setDataCctv(response.data.cctv)
         }).catch(error => {
@@ -76,6 +80,13 @@ export default function CctvInternal() {
                                         muted={true}
                                         width="100%"
                                         height="100%"
+                                        config={{
+                                            file: {
+                                                attributes: {
+                                                    crossOrigin: 'true'
+                                                },
+                                            }
+                                        }}
                                         url={dataPlayer.url}
                                     />
                                 </Col>

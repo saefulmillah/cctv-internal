@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { API_URL, ANT_URL, LOC_ANT_URL, SSL_ANT_URL, HKTOLL_URL, SSL_HKTOLL_URL } from '../utils/constants'
 import axios from 'axios'
 import ReactHlsPlayer from 'react-player/lazy'
-import { Container, Row, Col, Card, ListGroup, Button, Badge } from "react-bootstrap"
+import { Container, Row, Col, Card, ListGroup, Button, Badge, Placeholder } from "react-bootstrap"
 import BadgeStatusComponent from '../component/BadgeStatus'
 
 export default function CctvInternal() {
@@ -25,43 +25,57 @@ export default function CctvInternal() {
 
     const [dataCctv, setDataCctv] = useState([])
     const [dataRuas, setDataRuas] = useState('')
+    const [isLoading, setLoading] = useState(false)
+    const [isPlaying, setPlaying] = useState(true)
 
     const handleShow = function (link, cctvName) {
+        setPlaying(true)
         setDataPlayer({
             url: link,
             name: cctvName
         })
     }
 
+    // handle click ruas, show list cctv
     const handleClick = function (id_ruas, nama_ruas) {
         setDataRuas(nama_ruas)
+<<<<<<< HEAD
         axios.get(HKTOLL_URL + "allcctv/" + id_ruas).then(response => {
             // setLoading(false)
+=======
+        setLoading(true)
+        setPlaying(false)
+        setDataPlayer({
+            url: null,
+            name: 'Silahkan pilih CCTV'
+        })
+        axios.get(SSL_HKTOLL_URL + "allcctv/" + id_ruas, {
+            headers: {
+                'Access-Control-Allow-Origin': true,
+            },
+        }).then(response => {
+            setLoading(false)
+>>>>>>> 645ff821546c1b78571bb2dad2e2e4352464fb36
             setDataCctv(response.data.cctv)
         }).catch(error => {
             console.log(error)
-            // setLoading(false)
+            setLoading(false)
         })
     }
 
+    // calculate total cctv, online, offline
     let TotalOffline = 0
     let TotalOnline = 0
     let TotalCctv = 0
-
     dataCctv.map((result, index) => {
         if (result.is_active == 0) {
             TotalOffline += 1
-            // TotalOffline.push(result.is_active)
         } else {
             TotalOnline += 1
-            // TotalOnline.push(result.is_active)
         }
         TotalCctv += 1
     })
 
-    console.log("total Offline ====>", TotalOffline)
-    console.log("total Online ====>", TotalOnline)
-    console.log("total CCTV ====>", TotalCctv)
     return (
         <>
             <div className="bg g-0">
@@ -72,7 +86,7 @@ export default function CctvInternal() {
                                 <Col className="player-wrapper">
                                     <ReactHlsPlayer
                                         className='react-player'
-                                        playing
+                                        playing={isPlaying}
                                         muted={true}
                                         width="100%"
                                         height="100%"
@@ -86,9 +100,26 @@ export default function CctvInternal() {
                                         url={dataPlayer.url}
                                     />
                                 </Col>
-                                <Card.Body className='bg-dark text-white'>
-                                    <h4>{dataRuas} <small className="text-muted">({dataPlayer.name})</small></h4> Total {TotalCctv} <Badge bg='primary'>Online {TotalOnline}</Badge> <Badge bg='danger'>Offline {TotalOffline}</Badge>
-                                </Card.Body>
+                                {
+                                    isLoading === true ? 
+                                    <>
+                                        <Card.Body className='bg-dark text-white'>
+                                            <h4 class="card-title placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </h4>
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder col-1"></span> <span class="placeholder col-2"></span> <span class="placeholder col-2"></span>
+                                            </p>
+                                        </Card.Body>
+                                    </>
+                                    :
+                                    <>
+                                        <Card.Body className='bg-dark text-white'>
+                                            <h4>{dataRuas} <small className="text-muted">({dataPlayer.name})</small></h4> Total {TotalCctv} <Badge bg='primary'>Online {TotalOnline}</Badge> <Badge bg='danger'>Offline {TotalOffline}</Badge>
+                                        </Card.Body>
+                                    </>
+                                }
+                                
                                 <Card.Body>
                                     <div className='d-flex flex-wrap'>
                                         {
@@ -106,28 +137,42 @@ export default function CctvInternal() {
                                             })}
                                     </div>
                                 </Card.Body>
-                                {/* <Card.Body>
-                                    <Card.Title>{dataPlayer.name}</Card.Title>
-                                    <Card.Text>
-                                        {dataPlayer.url}
-                                    </Card.Text>
-                                </Card.Body> */}
+                                
                                 <Card.Body>
                                     <div className="container-list overflow-auto">
                                         <ListGroup className="list-group-flush">
-                                            {dataCctv.map((result, index) => {
-                                                return (
-                                                    <ListGroup.Item 
-                                                    as="li"
-                                                    href={'#link' + result.id} 
-                                                    onClick={() => handleShow(SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8', result.cctv_name)}>
-                                                        <div className="d-flex">
-                                                            <div className="p-2 flex-fill">{result.cctv_name}</div>
-                                                            <div className="p-2 flex-fill"><BadgeStatusComponent status={result.is_active} /></div>
-                                                        </div>
-                                                    </ListGroup.Item>
-                                                )
-                                            })}
+                                            { isLoading === true ? 
+                                                dataCctv.map((result, index) => {
+                                                    return (
+                                                        <ListGroup.Item
+                                                            as="li">
+                                                            <div className="d-flex placeholder-glow">
+                                                                <div className="p-2 flex-fill">
+                                                                    <span class="placeholder float-start col-10"></span>
+                                                                    <span class="placeholder float-end col-1"></span>
+                                                                </div>
+                                                            </div>
+                                                        </ListGroup.Item>
+                                                    )
+                                                })
+
+                                                 : 
+                                                
+                                                dataCctv.map((result, index) => {
+                                                    return (
+                                                        <ListGroup.Item
+                                                            as="li"
+                                                            href={'#link' + result.id}
+                                                            onClick={() => handleShow(SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8', result.cctv_name)}>
+                                                            <div className="d-flex">
+                                                                <div className="p-2 flex-fill">{result.cctv_name}</div>
+                                                                <div className="p-2 flex-fill"><BadgeStatusComponent status={result.is_active} /></div>
+                                                            </div>
+                                                        </ListGroup.Item>
+                                                    )
+                                                })
+                                                
+                                            }
                                         </ListGroup>
                                     </div>
                                 </Card.Body>

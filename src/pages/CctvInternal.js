@@ -1,6 +1,6 @@
 import '../style/style.css'
 import { useEffect, useState } from "react"
-import { API_URL, ANT_URL, HKTOLL_URL } from '../utils/constants'
+import { API_URL, ANT_URL, LOC_ANT_URL, SSL_ANT_URL, HKTOLL_URL, SSL_HKTOLL_URL } from '../utils/constants'
 import axios from 'axios'
 import ReactHlsPlayer from 'react-player/lazy'
 import { Container, Row, Col, Card, ListGroup, Button, Badge } from "react-bootstrap"
@@ -35,11 +35,7 @@ export default function CctvInternal() {
 
     const handleClick = function (id_ruas, nama_ruas) {
         setDataRuas(nama_ruas)
-        axios.get(HKTOLL_URL + "allcctv/" + id_ruas, {
-            headers: {
-                'Access-Control-Allow-Origin': true,
-            },
-        }).then(response => {
+        axios.get(HKTOLL_URL + "allcctv/" + id_ruas).then(response => {
             // setLoading(false)
             setDataCctv(response.data.cctv)
         }).catch(error => {
@@ -91,7 +87,7 @@ export default function CctvInternal() {
                                     />
                                 </Col>
                                 <Card.Body className='bg-dark text-white'>
-                                    <h4>{dataRuas} <small class="text-muted">({dataPlayer.name})</small></h4> Total {TotalCctv} <Badge bg='primary'>Online {TotalOnline}</Badge> <Badge bg='danger'>Offline {TotalOffline}</Badge>
+                                    <h4>{dataRuas} <small className="text-muted">({dataPlayer.name})</small></h4> Total {TotalCctv} <Badge bg='primary'>Online {TotalOnline}</Badge> <Badge bg='danger'>Offline {TotalOffline}</Badge>
                                 </Card.Body>
                                 <Card.Body>
                                     <div className='d-flex flex-wrap'>
@@ -117,14 +113,14 @@ export default function CctvInternal() {
                                     </Card.Text>
                                 </Card.Body> */}
                                 <Card.Body>
-                                    <div class="container-list overflow-auto">
+                                    <div className="container-list overflow-auto">
                                         <ListGroup className="list-group-flush">
                                             {dataCctv.map((result, index) => {
                                                 return (
                                                     <ListGroup.Item 
                                                     as="li"
                                                     href={'#link' + result.id} 
-                                                    onClick={() => handleShow('https://broadcast1.hk-opt.com/LiveApp/streams/' + result.antmedia_id + '.m3u8', result.cctv_name)}>
+                                                    onClick={() => handleShow(SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8', result.cctv_name)}>
                                                         <div className="d-flex">
                                                             <div className="p-2 flex-fill">{result.cctv_name}</div>
                                                             <div className="p-2 flex-fill"><BadgeStatusComponent status={result.is_active} /></div>

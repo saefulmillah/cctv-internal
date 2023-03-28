@@ -107,9 +107,9 @@ export default function CctvGridView() {
                                                 <Col className="player-wrapper">
                                                     <ReactHlsPlayer
                                                         className='react-player'
-                                                        playing={false}
+                                                        playing={true}
                                                         muted={true}
-                                                        controls={true}
+                                                        controls={false}
                                                         width="100%"
                                                         height="100%"
                                                         config={{

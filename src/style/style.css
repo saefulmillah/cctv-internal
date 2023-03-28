@@ -12,10 +12,26 @@
     /* 720 / 1280 = 0.5625 */
 }
 
+.player-wrapper-offline {
+    position: relative;
+    padding-top: 56.25%;
+    background-color: black;
+    /* 720 / 1280 = 0.5625 */
+}
+
+.react-player-offline {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    color: crimson;
+    font-weight: bold;
+}
+
 .react-player {
     position: absolute;
     top: 0;
     left: 0;
+    text-align: center;
 }
 
 .vertical-scrollable>.row {

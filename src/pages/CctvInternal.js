@@ -39,10 +39,6 @@ export default function CctvInternal() {
     // handle click ruas, show list cctv
     const handleClick = function (id_ruas, nama_ruas) {
         setDataRuas(nama_ruas)
-<<<<<<< HEAD
-        axios.get(HKTOLL_URL + "allcctv/" + id_ruas).then(response => {
-            // setLoading(false)
-=======
         setLoading(true)
         setPlaying(false)
         setDataPlayer({
@@ -55,7 +51,6 @@ export default function CctvInternal() {
             },
         }).then(response => {
             setLoading(false)
->>>>>>> 645ff821546c1b78571bb2dad2e2e4352464fb36
             setDataCctv(response.data.cctv)
         }).catch(error => {
             console.log(error)

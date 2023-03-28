@@ -105,6 +105,7 @@ export default function CctvGridView() {
                                         <Col>
                                             <Card>
                                                 <Col className="player-wrapper">
+                                                    <div className='player-title'>{result.cctv_name}</div>
                                                     <ReactHlsPlayer
                                                         className='react-player'
                                                         playing={true}
@@ -130,6 +131,7 @@ export default function CctvGridView() {
                                         <Col>
                                             <Card className=''>
                                                 <Col className="player-wrapper-offline">
+                                                    <div className='player-title'>{result.cctv_name}</div>
                                                     <div className="react-player-offline">
                                                         Offline
                                                     </div>

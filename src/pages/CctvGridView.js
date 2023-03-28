@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router'
+import CctvModal from '../component/CctvModal'
 
 export default function CctvGridView() {
     const namaRuas = [
@@ -37,7 +38,8 @@ export default function CctvGridView() {
     const [isPlaying, setPlaying] = useState(true)
     const [dataPaging, setPaging] = useState([])
     const [dataTotalPage, setTotalPage] = useState([])
-
+    const [show, setShow] = useState(false)
+    const [dataModal, setDataModal] = useState([])
     const id_ruas = 7
     const params = useParams()
     // get url params
@@ -46,6 +48,18 @@ export default function CctvGridView() {
     let Paging = []
     let PagingInfo = []
     let PageLength = []
+
+    const handleClose = () => {
+        setShow(false)
+    }
+
+    const handleShow = (cctv_name, cctv_url) => {
+        setShow(true)
+        setDataModal({
+            cctv_name: cctv_name,
+            cctv_url: cctv_url,
+        })
+    }
 
     useEffect(() => {
         // get info cctv by branch
@@ -104,7 +118,7 @@ export default function CctvGridView() {
                                     <>
                                         <Col>
                                             <Card>
-                                                <Col className="player-wrapper">
+                                                <Col className="player-wrapper" onClick={() => handleShow(result.cctv_name, SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8')}>
                                                     <div className='player-title'>{result.cctv_name}</div>
                                                     <ReactHlsPlayer
                                                         className='react-player'
@@ -154,6 +168,12 @@ export default function CctvGridView() {
                     </nav>
                 </div>
             </Container>
+            <CctvModal
+                show={show}
+                cctv_name={dataModal.cctv_name}
+                cctv_url={dataModal.cctv_url}
+                onClick={handleClose}
+                onHide={handleClose} />
         </>
     )
 }

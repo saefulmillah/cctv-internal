@@ -85,7 +85,7 @@ export default function Login() {
     }
 
     console.log("is true?", localStorage.getItem("authenticated"))
-    if (localStorage.getItem("authenticated")) {
+    if (localStorage.getItem("authenticated")=='true') {
         return <Navigate replace to="/cctv/grid" />
     } else {
         return (

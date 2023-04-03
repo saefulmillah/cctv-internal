@@ -107,8 +107,10 @@ export default function CctvGridView() {
     }
     console.log("is otentifikasi ok dashboard?", localStorage.getItem("authenticated"))
 
-    if (localStorage.getItem("authenticated")=='false' || localStorage.getItem("authenticated")==null) {
+    if (localStorage.getItem("authenticated")=='false') {
             return <Navigate replace to="/login" />
+    } else if (localStorage.getItem("authenticated")==null) {
+        return <Navigate replace to="/login" />
     } else {
         return (
             <>

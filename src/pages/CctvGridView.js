@@ -1,19 +1,15 @@
-import '../style/style.css'
-import React, { useEffect, useState } from "react"
-import { API_URL, ANT_URL, LOC_ANT_URL, SSL_ANT_URL, HKTOLL_URL, SSL_HKTOLL_URL, LOC_HKTOLL_URL } from '../utils/constants'
 import axios from 'axios'
+import React, { useEffect, useState } from "react"
+import Card from 'react-bootstrap/Card'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 import ReactHlsPlayer from 'react-player/lazy'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
 import { useParams } from 'react-router'
+import { Navigate } from "react-router-dom"
 import CctvModal from '../component/CctvModal'
+import '../style/style.css'
+import { SSL_ANT_URL, SSL_HKTOLL_URL } from '../utils/constants'
 
 export default function CctvGridView() {
     const namaRuas = [
@@ -40,8 +36,9 @@ export default function CctvGridView() {
     const [dataTotalPage, setTotalPage] = useState([])
     const [show, setShow] = useState(false)
     const [dataModal, setDataModal] = useState([])
-    const id_ruas = 7
+    const id_ruas = localStorage.getItem("ruasSelected")
     const params = useParams()
+    const [authenticated, setauthenticated] = useState(false);
     // get url params
     let uri_offset = params.offset
     let uri_limit = params.limit
@@ -62,6 +59,10 @@ export default function CctvGridView() {
     }
 
     useEffect(() => {
+        const loggedInUser = localStorage.getItem("authenticated");
+        if (loggedInUser) {
+            setauthenticated(loggedInUser);
+        }
         // get info cctv by branch
         axios.get(SSL_HKTOLL_URL + "infocctv/" + id_ruas, {
         }).then(response => {
@@ -104,76 +105,95 @@ export default function CctvGridView() {
         let limit = (i + 1) * 25
         Paging.push(<li class="page-item"><a class="page-link" href={"/cctv/grid/" + offset + "/" + limit}>{i + 1}</a></li>)
     }
+    console.log("is otentifikasi ok dashboard?", localStorage.getItem("authenticated"))
 
-
-    return (
-        <>
-
-            <Container fluid className='g-0'>
-                <Row className='row-cols-5 g-0'>
-                    {
-                        dataCctv.map((result, index) => {
-                            return (
-                                result.is_active == 1 ?
-                                    <>
-                                        <Col>
-                                            <Card>
-                                                <Col className="player-wrapper" onClick={() => handleShow(result.cctv_name, SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8')}>
-                                                    <div className='player-title'>{result.cctv_name}</div>
-                                                    <ReactHlsPlayer
-                                                        className='react-player'
-                                                        playing={true}
-                                                        muted={true}
-                                                        controls={false}
-                                                        width="100%"
-                                                        height="100%"
-                                                        config={{
-                                                            file: {
-                                                                attributes: {
-                                                                    crossOrigin: 'true'
-                                                                },
-                                                            }
-                                                        }}
-                                                        url={SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8'}
-                                                    />
-                                                </Col>
-                                            </Card>
-                                        </Col>
-                                    </>
-                                    :
-                                    <>
-                                        <Col>
-                                            <Card className=''>
-                                                <Col className="player-wrapper-offline">
-                                                    <div className='player-title'>{result.cctv_name}</div>
-                                                    <div className="react-player-offline">
-                                                        Offline
-                                                    </div>
-                                                </Col>
-                                            </Card>
-                                        </Col>
-                                    </>
-                            )
-                        })
-                    }
-                </Row>
-                <div class="fixed-bottom">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link">Page : </a>
-                            </li>
-                            {Paging}
-                        </ul>
-                    </nav>
-                </div>
-            </Container>
-            <CctvModal
-                show={show}
-                cctv_name={dataModal.cctv_name}
-                cctv_url={dataModal.cctv_url}
-                onClick={handleClose}
-                onHide={handleClose} />
-        </>
-    )
+    if (localStorage.getItem("authenticated")=='false' || localStorage.getItem("authenticated")==null) {
+            return <Navigate replace to="/login" />
+    } else {
+        return (
+            <>
+                <Container fluid className='g-0'>
+                    <Row className='row-cols-5 g-0'>
+                        {
+                            dataCctv.map((result, index) => {
+                                return (
+                                    result.is_active == 1 ?
+                                        <>
+                                            <Col>
+                                                <Card>
+                                                    <Col className="player-wrapper" onClick={() => handleShow(result.cctv_name, SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8')}>
+                                                        <div className='player-title'>{result.cctv_name}</div>
+                                                        <ReactHlsPlayer
+                                                            className='react-player'
+                                                            playing={true}
+                                                            muted={true}
+                                                            controls={false}
+                                                            width="100%"
+                                                            height="100%"
+                                                            config={{
+                                                                file: {
+                                                                    attributes: {
+                                                                        crossOrigin: 'true'
+                                                                    },
+                                                                }
+                                                            }}
+                                                            url={SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8'}
+                                                        />
+                                                    </Col>
+                                                </Card>
+                                            </Col>
+                                        </>
+                                        :
+                                        <>
+                                            <Col>
+                                                <Card>
+                                                    <Col className="player-wrapper-offline">
+                                                        <div className='player-title'>{result.cctv_name}</div>
+                                                        <ReactHlsPlayer
+                                                            className='react-player'
+                                                            playing={false}
+                                                            muted={true}
+                                                            controls={false}
+                                                            width="100%"
+                                                            height="100%"
+                                                            config={{
+                                                                file: {
+                                                                    attributes: {
+                                                                        crossOrigin: 'true'
+                                                                    },
+                                                                }
+                                                            }}
+                                                            url=''
+                                                        />
+                                                        <div className="react-player-offline">
+                                                            Offline
+                                                        </div>
+                                                    </Col>
+                                                </Card>
+                                            </Col>
+                                        </>
+                                )
+                            })
+                        }
+                    </Row>
+                    <div class="fixed-bottom">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link">Page : </a>
+                                </li>
+                                {Paging}
+                            </ul>
+                        </nav>
+                    </div>
+                </Container>
+                <CctvModal
+                    show={show}
+                    cctv_name={dataModal.cctv_name}
+                    cctv_url={dataModal.cctv_url}
+                    onClick={handleClose}
+                    onHide={handleClose} />
+            </>
+        )
+    }
 }

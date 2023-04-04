@@ -90,54 +90,56 @@ export default function Login() {
     } else {
         return (
             <>
-                <main className='form-signin w-100 m-auto text-center'>
-                    <Alert show={errors.email != undefined || errors.password != undefined ? true : false} variant="warning">
-                        <Alert.Heading>Warning.</Alert.Heading>
-                        <p>
-                            Email : {errors.email?.message}<br />
-                            Password : {errors.password?.message}
-                        </p>
-                    </Alert>
-                    <Alert show={show} variant="danger">
-                        <Alert.Heading>Warning.</Alert.Heading>
-                        <p>Anda tidak mempunyai akses untuk Ruas Tol tersebut.</p>
-                    </Alert>
-                    <Form onSubmit={handleSubmit(onSubmit)}>
-                        <Figure>
-                            <Figure.Image
-                                width={100}
-                                height={100}
-                                alt='logo-hk'
-                                src={Logo}
-                            />
-                        </Figure>
-                        <h1 className='h3 mb-3'>Please sign in</h1>
+                <main className='form-signin m-auto text-center'>
+                    <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+                        <Alert show={errors.email != undefined || errors.password != undefined ? true : false} variant="warning">
+                            <Alert.Heading>Warning.</Alert.Heading>
+                            <p>
+                                Email : {errors.email?.message}<br />
+                                Password : {errors.password?.message}
+                            </p>
+                        </Alert>
+                        <Alert show={show} variant="danger">
+                            <Alert.Heading>Warning.</Alert.Heading>
+                            <p>Anda tidak mempunyai akses untuk Ruas Tol tersebut.</p>
+                        </Alert>
+                        <Form onSubmit={handleSubmit(onSubmit)} className='w-100'>
+                            <Figure>
+                                <Figure.Image
+                                    width={100}
+                                    height={100}
+                                    alt='logo-hk'
+                                    src={Logo}
+                                />
+                            </Figure>
+                            <h1 className='h3 mb-3'>Please sign in</h1>
 
-                        <div class="form-floating">
-                            <Form.Control name='email' className='form-control' id='floatingInput' placeholder="Email" {...register('email')} />
-                            <label for="floatingInput">Username</label>
-                        </div>
-                        <div class="form-floating">
-                            <Form.Control type="password" name='password' className='form-control' id='floatingPassword' placeholder="Password" {...register('password')} />
-                            <label for="floatingPassword">Password</label>
-                        </div>
-                        <div class="">
-                            <Form.Control as={'select'} onChange={handleChange}>
-                                {
-                                    namaRuas.map((result, index) => {
-                                        return (
-                                            <>
-                                                <option value={result.value}>{result.name}</option>
-                                            </>
-                                        )
-                                    })
-                                }
-                            </Form.Control>
-                        </div>
+                            <div class="form-floating">
+                                <Form.Control type='text' name='email' className='form-control' id='floatingInput' placeholder="Email" {...register('email')} />
+                                <label for="floatingInput">Username</label>
+                            </div>
+                            <div class="form-floating">
+                                <Form.Control type="password" name='password' className='form-control' id='floatingPassword' placeholder="Password" {...register('password')} />
+                                <label for="floatingPassword">Password</label>
+                            </div>
+                            <div class="">
+                                <Form.Control as={'select'} onChange={handleChange}>
+                                    {
+                                        namaRuas.map((result, index) => {
+                                            return (
+                                                <>
+                                                    <option value={result.value}>{result.name}</option>
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </Form.Control>
+                            </div>
 
-                        <Button size="md" className='w-100 mt-3' as="input" type="submit" value="Login" />
-                        <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
-                    </Form>
+                            <Button size="md" className='w-100 mt-3' as="input" type="submit" value="Login" />
+                            <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
+                        </Form>
+                    </div>
                 </main>
             </>
         ) 

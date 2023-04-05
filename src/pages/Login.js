@@ -92,14 +92,19 @@ export default function Login() {
             <>
                 <main className='form-signin m-auto text-center'>
                     <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-                        <Alert show={errors.email != undefined || errors.password != undefined ? true : false} variant="warning">
-                            <Alert.Heading>Warning.</Alert.Heading>
-                            <p>
-                                Email : {errors.email?.message}<br />
-                                Password : {errors.password?.message}
-                            </p>
-                        </Alert>
-                        <Alert show={show} variant="danger">
+                        {
+                            errors.email != undefined ?
+                                <><Alert show={true} variant="warning" className='w-100'>
+                                    Username {errors.email?.message}
+                                </Alert></> : <></>
+                        }
+                        {
+                            errors.password != undefined ?
+                                <><Alert show={true} variant="warning" className='w-100'>
+                                    Password {errors.password?.message}
+                                </Alert></> : <></>
+                        }
+                        <Alert show={show} variant="danger" className='w-100'>
                             <Alert.Heading>Warning.</Alert.Heading>
                             <p>Anda tidak mempunyai akses untuk Ruas Tol tersebut.</p>
                         </Alert>

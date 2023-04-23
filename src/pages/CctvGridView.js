@@ -9,7 +9,7 @@ import { useParams } from 'react-router'
 import { Navigate } from "react-router-dom"
 import CctvModal from '../component/CctvModal'
 import '../style/style.css'
-import { SSL_ANT_URL, SSL_HKTOLL_URL } from '../utils/constants'
+import { SSL_ANT_URL, SSL_HKTOLL_URL, SSL_ANT_URL_EXT } from '../utils/constants'
 
 export default function CctvGridView() {
     const namaRuas = [
@@ -123,7 +123,7 @@ export default function CctvGridView() {
                                         <>
                                             <Col>
                                                 <Card>
-                                                    <Col className="player-wrapper" onClick={() => handleShow(result.cctv_name, SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8')}>
+                                                    <Col className="player-wrapper" onClick={() => handleShow(result.cctv_name, SSL_ANT_URL_EXT + 'LiveApp/streams/' + result.antmedia_id + '.m3u8')}>
                                                         <div className='player-title'>{result.cctv_name}</div>
                                                         <ReactHlsPlayer
                                                             className='react-player'
@@ -139,7 +139,7 @@ export default function CctvGridView() {
                                                                     },
                                                                 }
                                                             }}
-                                                            url={SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8'}
+                                                            url={SSL_ANT_URL_EXT + 'LiveApp/streams/' + result.antmedia_id + '.m3u8'}
                                                         />
                                                     </Col>
                                                 </Card>

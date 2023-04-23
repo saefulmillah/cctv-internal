@@ -16,6 +16,7 @@ export default function CctvInternal() {
         { name: 'Ruas MEBI', alias: 'MEBI', value: '4' },
         { name: 'Ruas PERMAI', alias: 'PERMAI', value: '7' },
         { name: 'Ruas SIBANCEH', alias: 'SIBANCEH', value: '8' },
+        { name: 'Ruas BINSA', alias: 'BINSA', value: '9' },
     ]
 
     const [dataPlayer, setDataPlayer] = useState({

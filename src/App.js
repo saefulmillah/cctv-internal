@@ -22,7 +22,7 @@ export default class App extends Component {
             <Route path='/cctv/grid/:offset/:limit' element={<CctvGridView />}></Route>
           </Routes>
           <Routes>
-            <Route path='/cctv/grid/' element={<Navigate to="/cctv/grid/0/25" />}></Route>
+            <Route path='/cctv/grid/' element={<Navigate to="/cctv/grid/0/9" />}></Route>
           </Routes>
         </main>
       </BrowserRouter>

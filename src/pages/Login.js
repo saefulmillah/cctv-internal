@@ -23,6 +23,7 @@ export default function Login() {
     const navigate = useNavigate();
     const users = [
         { username: "Bakter2023", password: "Lebaran2023", value: '5' },
+        { username: "Terpeka2023", password: "Lebaran2023", value: '6' },
         { username: "Permai2023", password: "Lebaran2023", value: '7' },
     ]
 

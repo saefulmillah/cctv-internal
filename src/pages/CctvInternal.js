@@ -1,6 +1,6 @@
 import '../style/style.css'
 import { useEffect, useState } from "react"
-import { API_URL, ANT_URL, LOC_ANT_URL, SSL_ANT_URL, HKTOLL_URL, SSL_HKTOLL_URL } from '../utils/constants'
+import { API_URL, ANT_URL, LOC_ANT_URL, SSL_ANT_URL1, SSL_ANT_URL2, HKTOLL_URL, SSL_HKTOLL_URL } from '../utils/constants'
 import axios from 'axios'
 import ReactHlsPlayer from 'react-player/lazy'
 import { Container, Row, Col, Card, ListGroup, Button, Badge, Placeholder } from "react-bootstrap"
@@ -16,6 +16,7 @@ export default function CctvInternal() {
         { name: 'Ruas MEBI', alias: 'MEBI', value: '4' },
         { name: 'Ruas PERMAI', alias: 'PERMAI', value: '7' },
         { name: 'Ruas SIBANCEH', alias: 'SIBANCEH', value: '8' },
+        { name: 'Ruas BINSA', alias: 'BINSA', value: '9' },
     ]
 
     const [dataPlayer, setDataPlayer] = useState({
@@ -158,7 +159,7 @@ export default function CctvInternal() {
                                                         <ListGroup.Item
                                                             as="li"
                                                             href={'#link' + result.id}
-                                                            onClick={() => handleShow(SSL_ANT_URL + 'LiveApp/streams/' + result.antmedia_id + '.m3u8', result.cctv_name)}>
+                                                            onClick={() => handleShow(SSL_ANT_URL1 + 'LiveApp/streams/' + result.antmedia_id + '.m3u8', result.cctv_name)}>
                                                             <div className="d-flex">
                                                                 <div className="p-2 flex-fill">{result.cctv_name}</div>
                                                                 <div className="p-2 flex-fill"><BadgeStatusComponent status={result.is_active} /></div>

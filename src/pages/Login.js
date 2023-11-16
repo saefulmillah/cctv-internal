@@ -13,7 +13,7 @@ export default function Login() {
         password: Yup.string()
             .required('Tidak boleh kosong')
             .min(3, 'Password harus lebih dari 3 karakter'),
-        email : Yup.string()
+        email: Yup.string()
             .required('Tidak boleh kosong')
     })
 
@@ -22,13 +22,20 @@ export default function Login() {
     const [show, setShow] = useState(false)
     const navigate = useNavigate();
     const users = [
-        { username: "Bakter2023", password: "Lebaran2023", value: '5' },
-        { username: "Terpeka2023", password: "Lebaran2023", value: '6' },
-        { username: "Permai2023", password: "Lebaran2023", value: '7' },
+        { username: "Cctv2023", password: "Lebaran2023", value: '1' },
+        // { username: "Atp2023", password: "Lebaran2023", value: '1' },
+        // { username: "Jorrs2023", password: "Lebaran2023", value: '2' },
+        // { username: "Palindra2023", password: "Lebaran2023", value: '3' },
+        // { username: "Mebi2023", password: "Lebaran2023", value: '4' },
+        // { username: "Bakter2023", password: "Lebaran2023", value: '5' },
+        // { username: "Terpeka2023", password: "Lebaran2023", value: '6' },
+        // { username: "Permai2023", password: "Lebaran2023", value: '7' },
+        // { username: "Sibanceh2023", password: "Lebaran2023", value: '8' },
+        // { username: "Binsa2023", password: "Lebaran2023", value: '9' },
     ]
 
     const namaRuas = [
-        { name: 'Pilih Ruas', alias: 'null', value: '0'},
+        { name: 'Pilih Ruas', alias: 'null', value: '0' },
         { name: 'Ruas JORRS', alias: 'JORRS', value: '2' },
         { name: 'Ruas ATP', alias: 'ATP', value: '1' },
         { name: 'Ruas BAKTER', alias: 'BAKTER', value: '5' },
@@ -49,20 +56,21 @@ export default function Login() {
     const handleChange = (selectedOption) => {
         setSelected(selectedOption)
     }
-    
+
     function onSubmit(data) {
-        
+
         const postData = {
-            email : data.email,
-            password : data.password,
-            ruas : selected.target.value
+            email: data.email,
+            password: data.password,
+            ruas: selected.target.value
         }
-        
+
         const account = users.find((dataAccount) => dataAccount.username === data.email)
         const password = account.password == data.password
         const ruas = account.value == selected.target.value
+        console.log(account + " " + password + " " + ruas);
 
-        if (account && password && ruas) {
+        if (account && password) {
             setauthenticated(true)
             setRuasSelected(selected.target.value)
             setShow(false)
@@ -86,7 +94,7 @@ export default function Login() {
     }
 
     console.log("is true?", localStorage.getItem("authenticated"))
-    if (localStorage.getItem("authenticated")=='true') {
+    if (localStorage.getItem("authenticated") == 'true') {
         return <Navigate replace to="/cctv/grid" />
     } else {
         return (
@@ -148,6 +156,6 @@ export default function Login() {
                     </div>
                 </main>
             </>
-        ) 
+        )
     }
 }

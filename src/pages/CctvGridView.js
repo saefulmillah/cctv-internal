@@ -41,7 +41,7 @@ export default function CctvGridView() {
     const [authenticated, setauthenticated] = useState(false);
     // get url params
     let uri_offset = params.offset
-    let uri_limit = 9
+    let uri_limit = 16
     let Paging = []
     let PagingInfo = []
     let PageLength = []
@@ -101,21 +101,21 @@ export default function CctvGridView() {
     })
 
     for (let i = 0; i <= PageLength[0]; i++) {
-        let offset = i * 9
-        let limit = (i + 1) * 9
+        let offset = i * 16
+        let limit = (i + 1) * 16
         Paging.push(<li class="page-item"><a class="page-link" href={"/cctv/grid/" + offset + "/" + limit}>{i + 1}</a></li>)
     }
     console.log("is otentifikasi ok dashboard?", localStorage.getItem("authenticated"))
 
-    if (localStorage.getItem("authenticated")=='false') {
-            return <Navigate replace to="/login" />
-    } else if (localStorage.getItem("authenticated")==null) {
+    if (localStorage.getItem("authenticated") == 'false') {
+        return <Navigate replace to="/login" />
+    } else if (localStorage.getItem("authenticated") == null) {
         return <Navigate replace to="/login" />
     } else {
         return (
             <>
                 <Container fluid className='g-0'>
-                    <Row className='row-cols-3 g-0'>
+                    <Row className='row-cols-4 g-0'>
                         {
                             dataCctv.map((result, index) => {
                                 return (

@@ -22,6 +22,7 @@ export default function Login() {
     const [show, setShow] = useState(false)
     const navigate = useNavigate();
     const users = [
+        { username: "Mebi2023", password: "Lebaran2023", value: '4' },
         { username: "Bakter2023", password: "Lebaran2023", value: '5' },
         { username: "Terpeka2023", password: "Lebaran2023", value: '6' },
         { username: "Permai2023", password: "Lebaran2023", value: '7' },

@@ -2,12 +2,15 @@ import axios from 'axios'
 import React, { useEffect, useState } from "react"
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import ReactHlsPlayer from 'react-player/lazy'
 import { useParams } from 'react-router'
 import { Navigate } from "react-router-dom"
 import CctvModal from '../component/CctvModal'
+import Hotkeys from 'react-hot-keys'
 import '../style/style.css'
 import { SSL_ANT_URL, SSL_HKTOLL_URL, SSL_ANT_URL_EXT } from '../utils/constants'
 
@@ -23,6 +26,8 @@ export default function CctvGridView() {
         { name: 'Ruas SIBANCEH', alias: 'SIBANCEH', value: '8' },
     ]
 
+    const [output, setOutput] = React.useState('Hello, I am a component that listens to keydown and keyup of a');
+
     const [dataPlayer, setDataPlayer] = useState({
         url: '-',
         name: 'Silahkan pilih CCTV'
@@ -35,6 +40,9 @@ export default function CctvGridView() {
     const [dataPaging, setPaging] = useState([])
     const [dataTotalPage, setTotalPage] = useState([])
     const [show, setShow] = useState(false)
+    const [showLogout, setShowLogout] = useState(false)
+    const [judul, setJudul] = useState([])
+    const [bodyText, setBodyText] = useState([])
     const [dataModal, setDataModal] = useState([])
     const id_ruas = localStorage.getItem("ruasSelected")
     const params = useParams()
@@ -48,6 +56,7 @@ export default function CctvGridView() {
 
     const handleClose = () => {
         setShow(false)
+        setShowLogout(false)
     }
 
     const handleShow = (cctv_name, cctv_url) => {
@@ -56,6 +65,17 @@ export default function CctvGridView() {
             cctv_name: cctv_name,
             cctv_url: cctv_url,
         })
+    }
+
+    const handleLogoutModal = (judul, bodyText) => {
+        setShowLogout(true)
+        setJudul(judul)
+        setBodyText(bodyText)
+    }
+
+    const handleLogout = () => {
+        localStorage.clear()
+        window.location.reload()
     }
 
     useEffect(() => {
@@ -115,6 +135,18 @@ export default function CctvGridView() {
         return (
             <>
                 <Container fluid className='g-0'>
+                    <Hotkeys
+                        keyName="shift+l"
+                        onKeyDown={(keyName, e, handle) => {
+                            setOutput(`onKeyDown ${keyName}`)
+                            handleLogoutModal("Logout", "Apakah anda yakin?")
+                        }}
+                        onKeyUp={(keyName, e, handle) => {
+                            // alert("logout")
+                            setOutput(`onKeyUp ${keyName}`)
+                        }}
+                    >
+                    </Hotkeys>
                     <Row className='row-cols-4 g-0'>
                         {
                             dataCctv.map((result, index) => {
@@ -189,6 +221,20 @@ export default function CctvGridView() {
                         </nav>
                     </div>
                 </Container>
+                <Modal show={showLogout} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{judul}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{bodyText}</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={handleLogout}>
+                            Logout
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                 <CctvModal
                     show={show}
                     cctv_name={dataModal.cctv_name}

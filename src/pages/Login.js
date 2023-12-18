@@ -44,7 +44,11 @@ export default function Login() {
         { name: 'Ruas MEBI', alias: 'MEBI', value: '4' },
         { name: 'Ruas PERMAI', alias: 'PERMAI', value: '7' },
         { name: 'Ruas SIBANCEH', alias: 'SIBANCEH', value: '8' },
-        { name: 'Ruas BINSA', alias: 'BINSA', value: '9' }
+        { name: 'Ruas BINSA', alias: 'BINSA', value: '9' },
+        { name: 'Ruas PEKBANG', alias: 'PEKBANG', value: '10' },
+        { name: 'Ruas BENGTAB', alias: 'BENGTAB', value: '11' },
+        { name: 'Ruas INDRAPRABU', alias: 'INDRAPRABU', value: '12' },
+        { name: 'Ruas INKIS', alias: 'INKIS', value: '13' },
     ]
 
     const formOptions = { resolver: yupResolver(formSchema) }

@@ -16,6 +16,7 @@ import { SSL_ANT_URL, SSL_HKTOLL_URL, SSL_ANT_URL_EXT } from '../utils/constants
 
 export default function CctvGridView() {
     const namaRuas = [
+        { name: 'Pilih Ruas', alias: 'null', value: '0' },
         { name: 'Ruas JORRS', alias: 'JORRS', value: '2' },
         { name: 'Ruas ATP', alias: 'ATP', value: '1' },
         { name: 'Ruas BAKTER', alias: 'BAKTER', value: '5' },
@@ -24,6 +25,11 @@ export default function CctvGridView() {
         { name: 'Ruas MEBI', alias: 'MEBI', value: '4' },
         { name: 'Ruas PERMAI', alias: 'PERMAI', value: '7' },
         { name: 'Ruas SIBANCEH', alias: 'SIBANCEH', value: '8' },
+        { name: 'Ruas BINSA', alias: 'BINSA', value: '9' },
+        { name: 'Ruas PEKBANG', alias: 'PEKBANG', value: '10' },
+        { name: 'Ruas BENGTAB', alias: 'BENGTAB', value: '11' },
+        { name: 'Ruas INDRAPRABU', alias: 'INDRAPRABU', value: '12' },
+        { name: 'Ruas INKIS', alias: 'INKIS', value: '13' },
     ]
 
     const [output, setOutput] = React.useState('Hello, I am a component that listens to keydown and keyup of a');

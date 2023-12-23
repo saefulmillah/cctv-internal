@@ -17,6 +17,10 @@ export default function CctvInternal() {
         { name: 'Ruas PERMAI', alias: 'PERMAI', value: '7' },
         { name: 'Ruas SIBANCEH', alias: 'SIBANCEH', value: '8' },
         { name: 'Ruas BINSA', alias: 'BINSA', value: '9' },
+        { name: 'Ruas PEKBANG', alias: 'PEKBANG', value: '10' },
+        { name: 'Ruas BENGTAB', alias: 'BENGTAB', value: '11' },
+        { name: 'Ruas INDRAPRABU', alias: 'INDRAPRABU', value: '12' },
+        { name: 'Ruas INKIS', alias: 'INKIS', value: '13' },
     ]
 
     const [dataPlayer, setDataPlayer] = useState({
@@ -97,25 +101,25 @@ export default function CctvInternal() {
                                     />
                                 </Col>
                                 {
-                                    isLoading === true ? 
-                                    <>
-                                        <Card.Body className='bg-dark text-white'>
-                                            <h4 class="card-title placeholder-glow">
-                                                <span class="placeholder col-6"></span>
-                                            </h4>
-                                            <p class="card-text placeholder-glow">
-                                                <span class="placeholder col-1"></span> <span class="placeholder col-2"></span> <span class="placeholder col-2"></span>
-                                            </p>
-                                        </Card.Body>
-                                    </>
-                                    :
-                                    <>
-                                        <Card.Body className='bg-dark text-white'>
-                                            <h4>{dataRuas} <small className="text-muted">({dataPlayer.name})</small></h4> Total {TotalCctv} <Badge bg='primary'>Online {TotalOnline}</Badge> <Badge bg='danger'>Offline {TotalOffline}</Badge>
-                                        </Card.Body>
-                                    </>
+                                    isLoading === true ?
+                                        <>
+                                            <Card.Body className='bg-dark text-white'>
+                                                <h4 class="card-title placeholder-glow">
+                                                    <span class="placeholder col-6"></span>
+                                                </h4>
+                                                <p class="card-text placeholder-glow">
+                                                    <span class="placeholder col-1"></span> <span class="placeholder col-2"></span> <span class="placeholder col-2"></span>
+                                                </p>
+                                            </Card.Body>
+                                        </>
+                                        :
+                                        <>
+                                            <Card.Body className='bg-dark text-white'>
+                                                <h4>{dataRuas} <small className="text-muted">({dataPlayer.name})</small></h4> Total {TotalCctv} <Badge bg='primary'>Online {TotalOnline}</Badge> <Badge bg='danger'>Offline {TotalOffline}</Badge>
+                                            </Card.Body>
+                                        </>
                                 }
-                                
+
                                 <Card.Body>
                                     <div className='d-flex flex-wrap'>
                                         {
@@ -133,11 +137,11 @@ export default function CctvInternal() {
                                             })}
                                     </div>
                                 </Card.Body>
-                                
+
                                 <Card.Body>
                                     <div className="container-list overflow-auto">
                                         <ListGroup className="list-group-flush">
-                                            { isLoading === true ? 
+                                            {isLoading === true ?
                                                 dataCctv.map((result, index) => {
                                                     return (
                                                         <ListGroup.Item
@@ -152,8 +156,8 @@ export default function CctvInternal() {
                                                     )
                                                 })
 
-                                                 : 
-                                                
+                                                :
+
                                                 dataCctv.map((result, index) => {
                                                     return (
                                                         <ListGroup.Item
@@ -167,7 +171,7 @@ export default function CctvInternal() {
                                                         </ListGroup.Item>
                                                     )
                                                 })
-                                                
+
                                             }
                                         </ListGroup>
                                     </div>
